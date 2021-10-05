@@ -1,25 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+
+import Navbar from "./Components/Navbar";
+import axios from "axios";
+import {useState,useEffect} from "react";
+import {BrowserRouter,Switch,Route} from "react-router-dom";
+import Card from "./Components/cards";
+import Context from "./context";
+import "./app.css";
+
+
 
 function App() {
+   const [state,setState] = useState([]);
+    //for pagination
+    let pageno=10;
+   let getdata= async()=>{
+       const {data} = await axios.get("https://webscrap437.herokuapp.com/products");
+       console.log(data);
+       setState(data);
+   }
+   
+   useEffect(()=>{
+     getdata();
+   },[])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <Context.Provider 
+    value ={{
+      state,
+      setState,
+      pageno
+    }}
+    >
+   <BrowserRouter>
+   <Navbar />
+   <Switch>
+     <Route exact path="/" component={Card}></Route>
+     <Route path="/:id" component={Card}></Route>
+   </Switch>
+   </BrowserRouter>
+   </Context.Provider>
+  
+    </>
   );
 }
 
 export default App;
+
