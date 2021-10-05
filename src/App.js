@@ -5,7 +5,7 @@ import {useState,useEffect} from "react";
 import {BrowserRouter,Switch,Route} from "react-router-dom";
 import Card from "./Components/cards";
 import Context from "./context";
-import "./app.css";
+import "./App.css";
 
 
 
